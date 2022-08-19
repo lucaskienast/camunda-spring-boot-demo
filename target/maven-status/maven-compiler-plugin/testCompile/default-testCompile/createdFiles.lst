@@ -1,0 +1,4 @@
+org/kienast/ProcessScenarioTest.class
+org/kienast/ProcessUnitTest.class
+org/kienast/InMemoryH2Test.class
+org/kienast/ProcessTestCoverageProcessEnginePlugin.class

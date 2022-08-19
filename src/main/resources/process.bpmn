@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.2.0">
+  <bpmn:process id="hello-camunda-spring-boot" name="hello-camunda-spring-boot" isExecutable="true">
+    <bpmn:startEvent id="StartEvent" name="Request&#10;received">
+      <bpmn:outgoing>SequenceFlow1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow1" sourceRef="StartEvent" targetRef="ScriptTask_ReceiveOrder" />
+    <bpmn:sequenceFlow id="SequenceFlow2" sourceRef="ScriptTask_ReceiveOrder" targetRef="EndEvent" />
+    <bpmn:endEvent id="EndEvent" name="Request&#10;processed">
+      <bpmn:incoming>SequenceFlow2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0ca2pnf" sourceRef="ScriptTask_ReceiveOrder" targetRef="ServiceTask_ValidateOrder" />
+    <bpmn:userTask id="UserTask_ShipOrder" name="Ship order" camunda:assignee="demo">
+      <bpmn:incoming>Flow_0wy04o6</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0wy04o6" sourceRef="ServiceTask_ValidateOrder" targetRef="UserTask_ShipOrder" />
+    <bpmn:serviceTask id="ServiceTask_ValidateOrder" name="Validate order" camunda:delegateExpression="${ValidateOrder}">
+      <bpmn:incoming>Flow_0ca2pnf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wy04o6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:scriptTask id="ScriptTask_ReceiveOrder" name="Receive order" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0ca2pnf</bpmn:outgoing>
+      <bpmn:script>def orderName = "Mobile"
+execution.setVariable("orderName", orderName)</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="hello-camunda-spring-boot">
+      <bpmndi:BPMNEdge id="SequenceFlow2_di" bpmnElement="SequenceFlow2">
+        <di:waypoint x="380" y="120" />
+        <di:waypoint x="902" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="496.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_08va5r8_di" bpmnElement="SequenceFlow1">
+        <di:waypoint x="198" y="120" />
+        <di:waypoint x="280" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="228" y="95" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ca2pnf_di" bpmnElement="Flow_0ca2pnf">
+        <di:waypoint x="380" y="120" />
+        <di:waypoint x="470" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wy04o6_di" bpmnElement="Flow_0wy04o6">
+        <di:waypoint x="570" y="120" />
+        <di:waypoint x="660" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0fkea3f_di" bpmnElement="EndEvent">
+        <dc:Bounds x="902" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="895" y="138" width="51" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1owxw8c_di" bpmnElement="UserTask_ShipOrder">
+        <dc:Bounds x="660" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent">
+        <dc:Bounds x="162" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="160" y="138" width="42" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0eokn45_di" bpmnElement="ServiceTask_ValidateOrder">
+        <dc:Bounds x="470" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_150geus_di" bpmnElement="ScriptTask_ReceiveOrder">
+        <dc:Bounds x="280" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
